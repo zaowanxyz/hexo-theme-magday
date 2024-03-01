@@ -1,0 +1,7 @@
+extends ../_partial/layout
+
+block content
+  .container.tag
+    div.title Tags
+    div.tags
+      != list_tags(site.tags, {show_count:false, class: {ul: 'ul', li: 'li', a: 'link'}, style: false, separator: ' '})

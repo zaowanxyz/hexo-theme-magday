@@ -1,0 +1,42 @@
+extends ../_partial/layout
+
+block content
+
+  .container.home.mag-index
+    each post in site.posts.sort('magDate', -1).data
+      - var specialClass = post.className?post.className:''
+      - var dateDays = 0
+      - var desDate = new Date(post.magDate)
+      - var curDate = new Date()
+
+      if post.magLoop
+        - newDesDate = new Date(curDate.getFullYear()+'-'+(desDate.getMonth() + 1)+'-'+desDate.getDate())
+        if newDesDate.getTime() < curDate.getTime()
+          - newDesDate = new Date((curDate.getFullYear()+1)+'-'+(desDate.getMonth() + 1)+'-'+desDate.getDate())
+        - dateDays = Math.floor((newDesDate.getTime() - curDate.getTime()) / (24*3600*1000))
+      else
+        - dateDays = Math.floor((desDate.getTime() - curDate.getTime()) / (24*3600*1000))
+
+      section(class=`article mag-item ${specialClass}`)
+        div.mag-icon
+          if post.magIcon
+            img(src=post.magIcon)
+          else
+            img(src=theme.avatar)
+        div.mag-content
+          if post.magPost==1
+            a(href=url_for(post.path)).title= post.title || '纪念日'
+          else
+            div.title= post.title
+          if dateDays > 0
+            div.content.date(class=`mag-date`)!= '还有 <span class="day">'+dateDays+'</span> 天'
+          else
+            div.content.date(class=`mag-date`)!= '距离<span>'+post.magText+'</span>已经 '+Math.abs(dateDays)+' 天'
+        //- div.article-header
+          if post.desc
+            span.desc= post.desc
+          else
+            span.desc= '每个日子都值得'
+        //- div.article-footer
+          //- span.date= date(post.date, 'MM DD, YYYY, dddd')
+        

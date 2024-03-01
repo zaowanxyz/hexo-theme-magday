@@ -1,0 +1,14 @@
+extends ../_partial/layout
+
+block content
+  .container
+    div.tag_title ##{page.tag}
+    - const _posts=((e=[])=>{let t={};return e.filter(e=>{return e.tags.filter(tag => tag.name === page.tag).length > 0 }).forEach(e=>{const a=page.tag;t[a]||(t[a]=[]),t[a].push(e)}),Object.keys(t).sort(e=>-e).map(e=>[e,t[e]])})(site.posts.data);
+    
+    each group in _posts
+      .archives
+        each post in group[1]
+          .post-archive
+            .post-archive__content
+              .post-archive__body
+                a.post-archive__title(href=url_for(post.path))= post.title || 'any.com'
