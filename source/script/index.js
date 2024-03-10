@@ -74,6 +74,34 @@
     $('html, body').animate({
         scrollTop: 0
     }, 300);
-});
+  });
+
+  $('.mag-date').each(function(i, elem) {
+
+    var magDate = $(elem).attr('mag-date');
+    var magLoop = parseInt($(elem).attr('mag-loop'));
+    var magText = $(elem).attr('mag-text');
+
+    let dateDays = 0;
+    let desDate = new Date(magDate);
+    let curDate = new Date();
+    let newDesDate;
+
+      if(magLoop === 1){
+        newDesDate = new Date(curDate.getFullYear()+'-'+(desDate.getMonth() + 1)+'-'+desDate.getDate())
+        if(newDesDate.getTime() < curDate.getTime()){
+          newDesDate = new Date((curDate.getFullYear()+1)+'-'+(desDate.getMonth() + 1)+'-'+desDate.getDate())
+        }
+        dateDays = Math.floor((newDesDate.getTime() - curDate.getTime()) / (24*3600*1000))
+      } else {
+        dateDays = Math.floor((desDate.getTime() - curDate.getTime()) / (24*3600*1000))
+      }
+      if(dateDays > 0){
+        $(elem).html('还有 <span class="day">'+dateDays+'</span> 天');
+      } else {
+        $(elem).html('距离<span>'+magText+'</span>已经 '+Math.abs(dateDays)+' 天');
+      }
+
+  });
 
 })(jQuery);

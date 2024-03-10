@@ -8,8 +8,10 @@ block content
       - var dateDays = 0
       - var desDate = new Date(post.magDate)
       - var curDate = new Date()
+      - var magLoop = 0
 
       if post.magLoop
+        - magLoop = 1
         - newDesDate = new Date(curDate.getFullYear()+'-'+(desDate.getMonth() + 1)+'-'+desDate.getDate())
         if newDesDate.getTime() < curDate.getTime()
           - newDesDate = new Date((curDate.getFullYear()+1)+'-'+(desDate.getMonth() + 1)+'-'+desDate.getDate())
@@ -29,9 +31,9 @@ block content
           else
             div.title= post.title
           if dateDays > 0
-            div.content.date(class=`mag-date`)!= '还有 <span class="day">'+dateDays+'</span> 天'
+            div.content.date(class=`mag-date` mag-loop=`${magLoop}` mag-date=`${post.magDate}` mag-text=`${post.magText}`)!= '还有 <span class="day">'+dateDays+'</span> 天'
           else
-            div.content.date(class=`mag-date`)!= '距离<span>'+post.magText+'</span>已经 '+Math.abs(dateDays)+' 天'
+            div.content.date(class=`mag-date` mag-loop=`${magLoop}` mag-date=`${post.magDate}` mag-text=`${post.magText}`)!= '距离<span>'+post.magText+'</span>已经 '+Math.abs(dateDays)+' 天'
         //- div.article-header
           if post.desc
             span.desc= post.desc
